@@ -11,7 +11,6 @@ def home():
 
 @app.route('/newestposts')
 def newestposts():
-    
     top10 = [db.get(i) for i in range(10)]
     string = str(top10)
     string = string[1:-1]
@@ -32,5 +31,16 @@ def exists(key):
     
     return resp
 
+
+@app.route('/post')
+def newpost():
+    title = request.form['title']
+    story = request.form['story']
+    if title in list(db.keys()):
+        resp = Response('error')
+        return resp
+    else:
+        db[title] = story
+        
 
 app.run('0.0.0.0')
