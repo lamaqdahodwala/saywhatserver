@@ -32,7 +32,7 @@ def exists(key):
     return resp
 
 
-@app.route('/post')
+@app.route('/post', methods=['POST'])
 def newpost():
     title = request.form['title']
     story = request.form['story']
