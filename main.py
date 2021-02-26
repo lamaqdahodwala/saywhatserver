@@ -38,9 +38,10 @@ def newpost():
     story = request.form['story']
     if title in list(db.keys()):
         resp = Response('error')
-        return resp
     else:
         db[title] = story
-        
+        resp = Response('Success')
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp 
 
 app.run('0.0.0.0')
