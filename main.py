@@ -34,9 +34,10 @@ def exists(key):
 
 @app.route('/post', methods=['POST'])
 def newpost():
-    title = request.form['title']
-    story = request.form['story']
-    author = request.form['author']
+    data = request.get_json()
+    title = data['title']
+    story = data['story']
+    author = data['author']
     if title in list(db.keys()):
         resp = Response('error')
     else:
