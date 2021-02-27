@@ -1,6 +1,7 @@
 from flask import Flask, Response, request
 from flask_cors import CORS
-from replit import db
+import json
+from threading import Thread
 
 app = Flask(__name__)
 CORS(app)
@@ -11,11 +12,25 @@ def home():
     return ''
 
 
+def savetojson():
+    with open('db.json', 'w') as f:
+        json.dump(db, f)
+
+
+db = json.load(open('db.json'))
+print(db)
+Thread(target=savetojson).start()
 @app.route('/newestposts')
 def newestposts():
-    top10 = [db.get(i) for i in range(10)]
+    top10 = {}
+    for i in range(10):
+        try:
+            key = list(db.keys())[i]
+            val = dict(db)[key]
+            top10[i] = [key, val]
+        except IndexError:
+            top10[i] = "null"
     string = str(top10)
-    string = string[1:-1]
     resp = Response(string)
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
