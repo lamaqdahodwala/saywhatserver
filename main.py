@@ -1,13 +1,15 @@
 from flask import Flask, Response, request
-from flask_cors  import CORS
+from flask_cors import CORS
 from replit import db
 
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route('/')
 def home():
     return ''
+
 
 @app.route('/newestposts')
 def newestposts():
@@ -19,7 +21,6 @@ def newestposts():
     return resp
 
 
-
 @app.route('/exists/<key>')
 def exists(key):
     if key in list(db.keys()):
@@ -28,7 +29,6 @@ def exists(key):
     else:
         resp = Response('False')
         resp.headers['Access-Control-Allow-Origin'] = '*'
-    
     return resp
 
 
@@ -36,12 +36,14 @@ def exists(key):
 def newpost():
     title = request.form['title']
     story = request.form['story']
+    author = request.form['author']
     if title in list(db.keys()):
         resp = Response('error')
     else:
-        db[title] = story
+        db[title] = [author, story]
         resp = Response('Success')
     resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp 
+    return resp
+
 
 app.run('0.0.0.0')
