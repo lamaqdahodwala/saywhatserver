@@ -19,7 +19,9 @@ def savetojson():
 
 db = json.load(open('db.json'))
 print(db)
-Thread(target=savetojson).start()
+
+Thread(target=savetojson()).start()
+
 @app.route('/newestposts')
 def newestposts():
     top10 = {}
