@@ -43,12 +43,19 @@ class NewPosts(Boilerplate):
     def get(self):
         allposts = dict(json.load(open('data.json')))
         self.write(allposts)
+
+class GetRead(Boilerplate):
+    def get(self, id):
+        data = json.load(open('data.json'))
+        data : dict
+        return data[id]
         
 def main():
     return Application([
         url(r'/', Home),
         url(r'/newestposts', NewPosts),
-        url(r'/post', Post)
+        url(r'/post', Post),
+        url(r'/read/(.+)', GetRead)
     ])
 
 
