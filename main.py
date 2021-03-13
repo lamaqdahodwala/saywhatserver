@@ -21,10 +21,17 @@ class Post(Boilerplate):
         key = ''
         for i in range(50):
             key += str(choice(letters))
-        return key
+        if key in json.load(open('data.json')):
+            self.generate_id
+        else:
+            return key
     def get(self, title, author, content):
         key = self.generate_id()
         data = dict(json.load(open('data.json')))
+        data[key] = [title, author, content]
+        self.write('ok')
+        with open('data.json', 'w') as f:
+            json.dump(data, f, indent='  ') 
         
 
 
@@ -36,7 +43,8 @@ class NewPosts(Boilerplate):
 def main():
     return Application([
         url(r'/', Home),
-        url(r'/newestposts', NewPosts)
+        url(r'/newestposts', NewPosts),
+        url(r'/post/(.+)/(.+)/(.+)', Post)
     ])
 
 
