@@ -25,14 +25,17 @@ class Post(Boilerplate):
             self.generate_id
         else:
             return key
-    def get(self, title, author, content):
+    def post(self):
+        data = self.get_argument('body')    
+        title = data[0]
+        author = data[1]
+        story = data[2]
         key = self.generate_id()
         data = dict(json.load(open('data.json')))
         data[key] = [title, author, content]
         self.write('ok')
         with open('data.json', 'w') as f:
-            json.dump(data, f, indent='  ') 
-        
+            json.dump(data, f, indent='  ')
 
 
 class NewPosts(Boilerplate):
@@ -44,7 +47,7 @@ def main():
     return Application([
         url(r'/', Home),
         url(r'/newestposts', NewPosts),
-        url(r'/post/(.+)/(.+)/(.+)', Post)
+        url(r'/post', Post)
     ])
 
 
