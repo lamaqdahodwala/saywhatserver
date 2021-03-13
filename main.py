@@ -32,7 +32,7 @@ class Post(Boilerplate):
         story = data[2]
         key = self.generate_id()
         data = dict(json.load(open('data.json')))
-        data[key] = [title, author, content]
+        data[key] = [title, author, story]
         self.write('ok')
         with open('data.json', 'w') as f:
             json.dump(data, f, indent='  ')
