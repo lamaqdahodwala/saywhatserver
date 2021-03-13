@@ -36,6 +36,7 @@ class Post(Boilerplate):
         self.write('ok')
         with open('data.json', 'w') as f:
             json.dump(data, f, indent='  ')
+        self.write('ok')
 
 
 class NewPosts(Boilerplate):
